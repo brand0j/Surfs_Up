@@ -8,7 +8,13 @@ The purpose of this analysis was to read in data from an sqlite file which conta
 
 ## Results
 
-After importing all of our dependencies we set up our engine to read in the sqlite file and reflect the database into a new model, along with the tables. In addition to our normal dependencies, I chose to add the following ```from sqlalchemy import MetaData, Table``` so I could take a look at what column keys were available for inspection through queries. When it comes to selecting the months of June & December from our database, we will need to use regular expressions to efficiently select the data we are interested in. Our regex expression is as follows: ```regex = r'\d{4}-06-\d{2}'``` for the month of June and ```regex = r'\d{4}-12-\d{2}'``` for the month of December. Next, we will make a query request: ```results = session.query(Measurement.tobs).filter(Measurement.date.op('regexp')(regex).all()```. This request accesses the temperature measurements (Measurement.tobs) and filters them by only selecting dates that match our respective regular expressions. After putting our temperature data into DataFrames we can run a descriptive statistic on each using ```df.describe()```
+After importing all of our dependencies we set up our engine to read in the sqlite file and reflect the database into a new model, along with the tables. In addition to our normal dependencies, I chose to add the following ```from sqlalchemy import MetaData, Table``` so I could take a look at what column keys were available for inspection through queries. When it comes to selecting the months of June & December from our database, we will need to use regular expressions to efficiently select the data we are interested in. Our regex expression is as follows:
+
+```regex = r'\d{4}-06-\d{2}'``` for the month of June
+
+```regex = r'\d{4}-12-\d{2}'``` for the month of December
+
+Next, we will make a query request: ```results = session.query(Measurement.tobs).filter(Measurement.date.op('regexp')(regex).all()```. This request accesses the temperature measurements (Measurement.tobs) and filters them by only selecting dates that match our respective regular expressions. After putting our temperature data into DataFrames we can run a descriptive statistic on each using ```df.describe()```
 
 
 ![june_temps_df](https://github.com/brand0j/Surfs_Up/blob/main/Resources/june_temps_df.PNG)
